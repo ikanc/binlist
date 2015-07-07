@@ -1,0 +1,23 @@
+{
+    "name": "ikanc/binlist",
+    "description": "a BIN/IIN fetcher from binlist.net",
+    "authors": [
+        {
+            "name": "Ika Balzam",
+            "email": "ika@net-comet.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Ikanc\\Binlist\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
