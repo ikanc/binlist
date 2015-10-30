@@ -1,11 +1,3 @@
-a BIN/IIN fetcher from binlist.net
-
-if ($_bin = Binlist::get('458011')->getData()) {
-            dd($_bin);
-        } else {
-            dd("no");
-        }
-
 # 
 Binlist
 ======
