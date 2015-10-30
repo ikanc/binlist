@@ -2,19 +2,21 @@
 
 class Binlist {
 
-    public static function get($bin = null) {
-        if (!is_numeric($bin)) {
-            $_result = new \StdClass();
+    private $error, $data = null;
 
-            $_result->error = 'no bin provided or not numeric';
-            return $_result;
+    public static function get($bin = null) {
+        $_bl = new self();
+        if (!is_numeric($bin)) {
+            $_bl->setError('no bin provided or not numeric');
+            return $_bl;
         }
-        return self::fetch($bin);
+        return $_bl->fetch($bin);
     }
 
-    private static function fetch($bin) {
+    private function fetch($bin) {
+
         if(!is_callable('curl_init')){
-            return ['error' => 'no bin or not numeric'];
+            return $this->setError('Please verify that CURL is installed');
         }
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL,"http://www.binlist.net/json/{$bin}");
@@ -22,21 +24,30 @@ class Binlist {
         $output = curl_exec($ch);
         curl_close($ch);
 
-        $_result = new \StdClass();
         try {
-            $_result = json_decode($output);
+            $this->setData(json_decode($output));
         } catch (\Exception $e) {
-            $_result->error = 'failed fetching information';
-            return $_result;
+            return $this->setError('failed receiving information from binlist');
         }
 
-        // Got result
-        if (is_object($_result)) { return $_result; }
+        if (!$this->getData()) {
+            return $this->setError('Could not match the requested Bin');
+        }
 
-        // Could not find bin
-        $_result = new \StdClass();
-        $_result->error = 'bin not found';
-        return $_result;
+        return $this;
+    }
+
+    private function setError($reason) {
+        $this->error = $reason;
+        return $this;
+    }
+
+    private function setData($jsonObj) {
+        if (is_object($jsonObj)) { $this->data = $jsonObj; }
+    }
+
+    public function getData() {
+        return $this->data;
     }
 
 }
