@@ -5,7 +5,7 @@ Binlist
 
 To install Binlist, use composer:
 ```
-$ composer install ikanc/binlist 
+$ composer require ikanc/binlist 
 ```
 or add `"ikanc/binlist": "1.*"` under require in `app.php` 
 
