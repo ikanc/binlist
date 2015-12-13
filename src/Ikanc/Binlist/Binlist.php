@@ -21,6 +21,8 @@ class Binlist {
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL,"http://www.binlist.net/json/{$bin}");
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT_MS,700);
+        curl_setopt($ch,CURLOPT_TIMEOUT_MS,1000);
         $output = curl_exec($ch);
         curl_close($ch);
 
